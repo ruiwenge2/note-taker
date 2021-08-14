@@ -1,0 +1,64 @@
+* {
+    outline:none;
+  }
+  body {
+    font-family:'Roboto';
+  }
+  nav {
+    border:3px solid chartreuse;
+    height:40px;
+    float:right;
+    padding-top:40px;
+    padding-bottom:40px;
+    padding-right:10px;
+    padding-left:40px;
+  }
+  h1 {
+    text-align:center;
+  }
+  a, a:visited {
+    color:blue;
+    font-size:20px;
+    margin-right:50px;
+  }
+  a:hover, a:active {
+    text-decoration:none;
+  }
+  main {
+    text-align:center;
+  }
+  .note {
+    padding-left:30px;
+    width:98%;
+    height:50px;
+    text-align:left;
+  }
+  button {
+    background:white;
+    color:blue;
+    width:100px;
+    height:40px;
+    border:2px solid blue;
+    border-radius:5px;
+    cursor:pointer;
+    user-select:none;
+  }
+  main button {
+    margin-right:30px;
+  }
+  #settings button {
+    width:auto;
+  }
+  button:hover {
+    transition:all 0.3s ease-in-out;
+    background:blue;
+    color:white;
+  }
+  #settings {
+  	text-align:center;
+  	border:3px solid blue;
+  }
+  #new {
+    float:right;
+    margin-right:50px;
+  }

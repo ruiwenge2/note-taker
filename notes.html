@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="/note-taker/images/note.png" rel="icon">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="notes.html">Notes</a>
+      <a href="settings.html">Settings</a>
+    </nav><br><br><br><br><br><br><br>
+    <h1>Notes</h1>
+    <button onclick="newNote()" id="new">New Note</button>
+    <br><br><br><br>
+    <hr style="border:1px solid blue">
+    <main></main>
+    <script src="https://ruiwen.qoom.space/popups/modal.js"></script>
+    <script>
+      function newNote(){
+        promptmodal("Create Note", "Enter the name of the note:", "Create", true);
+        okbtn.onclick = function(){
+          letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+          cap_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+          numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+          allchars = letters + cap_letters + numbers;
+          validName = true;
+          for(var i of value){
+            if(!allchars.includes(i)){
+              alertmodal("", "The name can only contain alphanumeric characters.");
+              validName = false;
+            }
+          }
+          if(validName == true){
+            if(value.length <= 50){
+              var test = localStorage.getItem("#Notes_" + value);
+              if(test === null){
+              	if(value != ""){
+	                localStorage.setItem("#Notes_" + value, "");
+	                window.open("edit.html?noteName=" + value);
+	                location.reload();
+              	}
+              } else{
+                alertmodal("", "This note already exists.");
+              }
+            } else{
+              alertmodal("", "The name cannot have more than 50 characters.");
+            }
+          }
+        };
+      }
+      var main = document.querySelector("main");
+      Object.keys(localStorage).forEach(function(name){
+        if(name.startsWith("#Notes_")){
+          var div = document.createElement("div");
+          name = name.slice(7);
+          main.appendChild(div);
+          div.innerHTML = name;
+          div.className = "note";
+          var btn1 = document.createElement("button");
+          main.appendChild(btn1);
+          btn1.innerHTML = "Edit";
+          btn1.onclick = function(){ // edit note
+            window.open("edit.html?noteName=" + name);
+          };
+          var btn2 = document.createElement("button");
+          main.appendChild(btn2);
+          btn2.innerHTML = "View";
+          btn2.onclick = function(){ // view note
+            window.open("viewnote.html?noteName=" + name);
+          };
+          var btn3 = document.createElement("button");
+	    	main.appendChild(btn3);
+	    	btn3.innerHTML = "Download";
+	    	btn3.onclick = function(){ // download note
+	    		var element = document.createElement("a");
+	    		element.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(localStorage.getItem("#Notes_" + name));
+	    		element.download = name;
+	    		element.click();
+	    	};
+          var btn4 = document.createElement("button");
+          main.appendChild(btn4);
+          btn4.innerHTML = "Rename";
+          btn4.onclick = function(){
+            promptmodal("Rename Note", `Enter a new name for <span style="color:blue">${name}</span>:`, "Rename", true);
+            okbtn.onclick = function(){ // rename note
+              letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+              cap_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+              numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+              allchars = letters + cap_letters + numbers;
+              validName = true;
+              for(var i of value){
+                if(!allchars.includes(i)){
+                  alertmodal("", "The name can only contain alphanumeric characters.");
+                  validName = false;
+                }
+              }
+              if(validName == true){
+                if(value.length <= 50){
+                  var test = localStorage.getItem("#Notes_" + value);
+                  if(test === null){
+                  	if(value != ""){
+	                    var contents = localStorage.getItem("#Notes_" + name);
+	                    localStorage.removeItem("#Notes_" + name);
+	                    localStorage.setItem("#Notes_" + value, contents);
+	                    location.reload();
+                  	}
+                  } else{
+                    alertmodal("", "This note already exists.");
+                  }
+                } else{
+                  alertmodal("", "The name cannot have more than 50 characters.");
+                }
+              }
+            };
+          };
+          var btn5 = document.createElement("button");
+          main.appendChild(btn5);
+          btn5.innerHTML = "Delete";
+          btn5.onclick = function(){ // delete note
+            confirmmodal("Delete Note", `Are you sure you want to delete <span style="color:blue">${name}</span>?`, "Delete", true);
+            okbtn.onclick = function(){
+              localStorage.removeItem("#Notes_" + name);
+              location.reload();
+            };
+          };
+          var hr = document.createElement("hr");
+          hr.style.border = "1px solid blue";
+          main.appendChild(hr);
+        }
+      });
+    </script>
+	<script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Settings</title>
+	    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	    <link href="/note-taker/images/note.png" rel="icon">
+	    <link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<nav>
+	      <a href="home.html">Home</a>
+	      <a href="about.html">About</a>
+	      <a href="notes.html">Notes</a>
+	      <a href="settings.html">Settings</a>
+	    </nav><br><br><br><br><br><br><br>
+	    <h1>Settings</h1><br>
+	    <div id="settings">
+	    	<br>
+	    	<label for="bgcolor">Background Color: </label><input type="color" id="bgcolor"><br><br>
+	    	<label for="textcolor">Notes Text Color: </label><input type="color" id="textcolor"><br><br>
+	    	<label for="fontsize">Notes Font Size: </label><input type="number" min="10" max="50" id="fontsize"><br><br>
+	    	<label for="fontfamily">Notes Font: </label>
+	    	<select id="fontfamily">
+	    		<option>Roboto</option>
+	    		<option>Arial</option>
+	    		<option>Helvetica</option>
+	    		<option>Tahoma</option>
+	    		<option>Trebuchet</option>
+	    		<option>Georgia</option>
+	    		<option>Garamond</option>
+	    		<option>Courier</option>
+	    	</select><br><br><br>
+	    	<button onclick="submit()">Change Settings</button><br><br>
+	    	<button onclick="resetSettings()">Reset Settings</button>
+	    	<br><br>
+	    </div>
+	    <script src="https://ruiwen.qoom.space/popups/modal.js"></script>
+	    <script>
+	    	function submit(){
+	    		var bgcolor = document.getElementById("bgcolor").value;
+	    		var textcolor = document.getElementById("textcolor").value;
+	    		var fontsize = document.getElementById("fontsize").value;
+	    		var fontfamily = document.getElementById("fontfamily").value;
+	    		if(fontsize < 10){
+	    			alertmodal("", "The font size has to be at least 10.");
+	    		}
+	    		else if(fontsize > 50){
+	    			alertmodal("", "The font size cannot be more than 50.");
+	    		}
+	    		else if(fontsize >= 10 && fontsize <= 50){
+		    		localStorage.setItem("submitSettings", "true");
+		    		localStorage.setItem("notesbgcolor", bgcolor);
+		    		localStorage.setItem("notestextcolor", textcolor);
+		    		localStorage.setItem("notestextsize", fontsize);
+		    		localStorage.setItem("notesfontfamily", fontfamily);
+		    		location.reload();
+	    		}
+	    	}
+	    	function resetSettings(){
+	    		localStorage.removeItem("submitSettings");
+	    		localStorage.removeItem("notesbgcolor");
+	    		localStorage.removeItem("notestextcolor");
+	    		localStorage.removeItem("notestextsize");
+	    		localStorage.removeItem("notesfontfamily");
+	    		location.reload();
+	    	}
+	    	var settings = localStorage.getItem("submitSettings");
+			if(settings === "true"){
+				document.getElementById("bgcolor").value = localStorage.getItem("notesbgcolor");
+				document.getElementById("textcolor").value = localStorage.getItem("notestextcolor");
+				document.getElementById("fontsize").value = localStorage.getItem("notestextsize");
+				document.getElementById("fontfamily").value = localStorage.getItem("notesfontfamily");
+			}
+	    </script>
+	<script src="script.js"></script>
+	</body>
+</html>
